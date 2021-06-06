@@ -1,7 +1,16 @@
 import ReactDOM from "react-dom";
+// Welcome is a default export, so we can import without destructuring
+import Welcome from "./welcome.js";
+import axios from "axios";
 
-ReactDOM.render(<HelloWorld />, document.querySelector("main"));
-
-function HelloWorld() {
-    return <div>Hello, World!</div>;
-}
+axios.get("/user/id.json").then(function ({ data }) {
+    console.log("data in start", data);
+    if (!data.id) {
+        ReactDOM.render(<Welcome />, document.querySelector("main"));
+    } else {
+        ReactDOM.render(
+            <img src="/logo.png" alt="logo" />,
+            document.querySelector("main")
+        );
+    }
+});
