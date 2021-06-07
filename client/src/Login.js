@@ -1,8 +1,8 @@
-import React from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import React from "react";
 
-export class Registration extends React.Component {
+export class Login extends React.Component {
     constructor(props) {
         super(props);
         // Setting some default state:
@@ -24,12 +24,12 @@ export class Registration extends React.Component {
         );
     }
 
-    handleSubmit(event) {
+    handleLogin(event) {
         console.log("SUBMIT", this.state);
 
         event.preventDefault();
         axios
-            .post("/register", this.state)
+            .post("/login", this.state)
             .then(({ data }) => {
                 console.log("data", data);
                 if (data.success === false) {
@@ -53,26 +53,12 @@ export class Registration extends React.Component {
 
     render() {
         return (
-            <>
-                {/*Conditional rendering of the error*/}
+            <div>
                 {this.state.error && (
                     <p>Oupsi! Something went wrong, try again.</p>
                 )}
-                {/*Option 2 to keep track of the this context - Arrow functions:*/}
-                <form onSubmit={(event) => this.handleSubmit(event)}>
-                    <input
-                        name={"firstName"}
-                        placeholder={"First Name"}
-                        // Commenting out the required attribute for now to be able to properly test the axios requests
-                        // required
-                        onChange={this.handleChange}
-                    />
-                    <input
-                        name={"lastName"}
-                        placeholder={"Last Name"}
-                        // required
-                        onChange={this.handleChange}
-                    />
+                <h1>Login</h1>
+                <form onSubmit={(event) => this.handleLogin(event)}>
                     <input
                         name={"email"}
                         placeholder={"email"}
@@ -87,10 +73,11 @@ export class Registration extends React.Component {
                         type={"password"}
                         onChange={this.handleChange}
                     />
-                    <button type={"submit"}>Submit</button>
+                    <button type={"submit"}>Login</button>
                 </form>
-                <Link to="/login"> Click here to Login!</Link>
-            </>
+                <Link to="/"> Click here to register!</Link>
+                <Link to="/password-reset"> Forgot Password?</Link>
+            </div>
         );
     }
 }
