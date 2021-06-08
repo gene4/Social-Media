@@ -12,6 +12,7 @@ const { hash, compare } = require("../bcrypt");
 const csurf = require("csurf");
 const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
+const s3 = require("../s3");
 
 ///////////////////////////
 //////// MIDDLEWARE //////
@@ -38,6 +39,29 @@ app.use(express.json());
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
+
+////////MULTER stuff/////
+
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 ///////////////////////
 ////////ROUTES////////
@@ -173,6 +197,29 @@ app.post("/password/reset/verify", function (req, res) {
             console.log("cant get code", e);
             res.json({ success: false });
         });
+});
+
+app.get("/user", function (req, res) {
+    db.getUserById(req.session.userId)
+        .then((result) => {
+            res.json(result.rows);
+        })
+        .catch((e) => {
+            console.log("cant find user", e);
+        });
+});
+
+app.post("/upload", uploader.single("file"), s3.upload, function (req, res) {
+    if (req.file) {
+        let fullUrl = `https://s3.amazonaws.com/spicedling/${req.file.filename}`;
+        db.updateProfilePic(fullUrl, req.session.userId)
+            .then((result) => {
+                res.json(result.rows[0]);
+            })
+            .catch((e) => {
+                console.log("error in updating url", e);
+            });
+    }
 });
 
 app.get("*", function (req, res) {
