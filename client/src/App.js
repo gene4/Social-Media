@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import { ProfilePic } from "./ProfilePic";
 import Uploader from "./Uploader";
 import axios from "./axios";
+import { Profile } from "./Profile";
 
 export default class App extends Component {
     constructor() {
@@ -12,6 +13,7 @@ export default class App extends Component {
         };
         this.toggleUploader = this.toggleUploader.bind(this);
         this.setProfilePic = this.setProfilePic.bind(this);
+        this.setBio = this.setBio.bind(this);
     }
 
     componentDidMount() {
@@ -22,6 +24,7 @@ export default class App extends Component {
                 first: data[0].first,
                 last: data[0].last,
                 picUrl: data[0].url,
+                bio: data[0].bio,
             });
         });
     }
@@ -29,6 +32,12 @@ export default class App extends Component {
     setProfilePic(imgUrl) {
         this.setState({
             picUrl: imgUrl,
+        });
+    }
+
+    setBio(newBio) {
+        this.setState({
+            bio: newBio,
         });
     }
 
@@ -46,22 +55,29 @@ export default class App extends Component {
 
     render() {
         return (
-            <div>
-                <h3>
-                    hiiii {this.state.userId} {this.state.first}{" "}
-                    {this.state.last}
-                </h3>
+            <div className="app">
+                <nav className="nav">
+                    <Logo />
+                    <ProfilePic
+                        first={this.state.first}
+                        last={this.state.last}
+                        imgUrl={this.state.picUrl}
+                        toggleUploader={this.toggleUploader}
+                        width="50"
+                        height="50"
+                    />
+                </nav>
 
-                <Logo />
-                <ProfilePic
-                    first={this.state.first}
-                    last={this.state.last}
-                    imgUrl={this.state.picUrl}
-                    toggleUploader={this.toggleUploader}
-                />
                 {this.state.uploaderIsVisible && (
                     <Uploader setProfilePic={this.setProfilePic} />
                 )}
+                <Profile
+                    first={this.state.first}
+                    last={this.state.last}
+                    imgUrl={this.state.picUrl}
+                    bio={this.state.bio}
+                    setBio={this.setBio}
+                />
             </div>
         );
     }

@@ -7,8 +7,9 @@ export default class Logo extends Component {
     }
     render() {
         return (
-            <div>
-                <img src="../favicon.ico" alt="icon" />
+            <div className="logo">
+                <img width="50" height="50" src="../favicon.ico" alt="icon" />
+                <h1>Hot Track Summer!</h1>
             </div>
         );
     }

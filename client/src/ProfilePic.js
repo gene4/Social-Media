@@ -1,15 +1,21 @@
-export function ProfilePic({ first, last, imgUrl, toggleUploader }) {
+export function ProfilePic({
+    first,
+    last,
+    imgUrl,
+    toggleUploader,
+    width,
+    height,
+}) {
     imgUrl = imgUrl || "../defaultUser.png";
     console.log("imgUrl", imgUrl);
 
     return (
-        <div>
-            <h1>profile pic comp</h1>
-            <img
-                onClick={toggleUploader}
-                src={imgUrl}
-                alt={`Profile picture for ${first} ${last}`}
-            />
-        </div>
+        <img
+            onClick={toggleUploader}
+            src={imgUrl}
+            height={width}
+            width={height}
+            alt={`Profile picture for ${first} ${last}`}
+        />
     );
 }

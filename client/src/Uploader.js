@@ -16,6 +16,7 @@ export default class Uploader extends Component {
     }
 
     uploadPic(event) {
+        console.log("props", this.props);
         event.preventDefault();
         var formData = new FormData();
         formData.append("file", this.image);
@@ -33,7 +34,7 @@ export default class Uploader extends Component {
 
     render() {
         return (
-            <div>
+            <div className="uploader">
                 <h3>Change your picture!</h3>
                 <form onSubmit={(event) => this.uploadPic(event)}>
                     <input
@@ -43,6 +44,7 @@ export default class Uploader extends Component {
                         accept="image/*"
                         onChange={this.handleFileChange}
                     />
+
                     <button>Upload</button>
                 </form>
             </div>

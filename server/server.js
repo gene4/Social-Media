@@ -222,6 +222,19 @@ app.post("/upload", uploader.single("file"), s3.upload, function (req, res) {
     }
 });
 
+app.post("/bio", function (req, res) {
+    console.log("req.body", req.body);
+    db.updateBio(req.body.bio, req.session.userId)
+        .then((result) => {
+            console.log("bio was sent", result.rows[0]);
+            res.json(result.rows[0]);
+        })
+        .catch((e) => {
+            console.log("error in updating bio", e);
+            res.json({ success: false });
+        });
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
