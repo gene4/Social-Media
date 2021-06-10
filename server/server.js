@@ -235,6 +235,22 @@ app.post("/bio", function (req, res) {
         });
 });
 
+app.get("/user/:id.json", function (req, res) {
+    console.log("req.body", req.params);
+    db.getUserById(req.params.id)
+        .then((result) => {
+            console.log("user been sent", result.rows);
+            if (req.params.id == req.session.userId) {
+                res.json({ ownProfile: true });
+            } else {
+                res.json(result.rows);
+            }
+        })
+        .catch((e) => {
+            console.log("cant find user", e);
+        });
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });

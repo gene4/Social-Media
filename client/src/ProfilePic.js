@@ -7,7 +7,6 @@ export function ProfilePic({
     height,
 }) {
     imgUrl = imgUrl || "../defaultUser.png";
-    console.log("imgUrl", imgUrl);
 
     return (
         <img
