@@ -251,6 +251,28 @@ app.get("/user/:id.json", function (req, res) {
         });
 });
 
+app.get("/users/last", function (req, res) {
+    db.getLastUsers()
+        .then((result) => {
+            console.log("Last users were sent", result.rows);
+            res.json(result.rows);
+        })
+        .catch((e) => {
+            console.log("error in last users", e);
+        });
+});
+
+app.get("/users/search/:input", function (req, res) {
+    db.getUserSearch(req.params.input)
+        .then((result) => {
+            console.log("searched users were sent", result.rows);
+            res.json(result.rows);
+        })
+        .catch((e) => {
+            console.log("error in searched users", e);
+        });
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });

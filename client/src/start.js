@@ -5,7 +5,6 @@ import axios from "./axios";
 import App from "./app.js";
 
 axios.get("/user/id.json").then(function ({ data }) {
-    console.log("data in start", data);
     if (!data.userId) {
         ReactDOM.render(<Welcome />, document.querySelector("main"));
     } else {

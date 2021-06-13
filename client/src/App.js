@@ -6,6 +6,8 @@ import axios from "./axios";
 import { Profile } from "./Profile";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./OtherProfiles";
+import FindPeople from "./FindPeople";
+import { Link } from "react-router-dom";
 
 export default class App extends Component {
     constructor() {
@@ -19,16 +21,18 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        axios.get("./user").then(({ data }) => {
-            this.setState({
-                userId: data[0].id,
-                first: data[0].first,
-                last: data[0].last,
-                picUrl: data[0].url,
-                bio: data[0].bio,
-            });
+        axios.get("/user").then(({ data }) => {
+            this.setState(
+                {
+                    userId: data[0].id,
+                    first: data[0].first,
+                    last: data[0].last,
+                    picUrl: data[0].url,
+                    bio: data[0].bio,
+                },
+                () => {}
+            );
         });
-        console.log("picurl", this.state);
     }
 
     setProfilePic(imgUrl) {
@@ -61,14 +65,17 @@ export default class App extends Component {
                 <div className="app">
                     <nav className="nav">
                         <Logo />
-                        <ProfilePic
-                            first={this.state.first}
-                            last={this.state.last}
-                            imgUrl={this.state.picUrl}
-                            toggleUploader={this.toggleUploader}
-                            width="50"
-                            height="50"
-                        />
+                        <div className="navLinks">
+                            <Link to="/users">Find People!</Link>
+                            <ProfilePic
+                                first={this.state.first}
+                                last={this.state.last}
+                                imgUrl={this.state.picUrl}
+                                toggleUploader={this.toggleUploader}
+                                width="50"
+                                height="50"
+                            />
+                        </div>
                     </nav>
 
                     {this.state.uploaderIsVisible && (
@@ -88,6 +95,7 @@ export default class App extends Component {
                         )}
                     />
                     <Route path="/user/:id" component={OtherProfile} />
+                    <Route path="/users" component={FindPeople} />
                 </div>
             </BrowserRouter>
         );
