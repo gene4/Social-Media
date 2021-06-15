@@ -169,3 +169,16 @@ a {
 input:focus {
     outline: none;
 }
+
+.profile section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 450px;
+}
+
+.friend-button {
+    background-color: #ffc93c;
+    width: 250px;
+}

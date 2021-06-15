@@ -223,7 +223,6 @@ app.post("/upload", uploader.single("file"), s3.upload, function (req, res) {
 });
 
 app.post("/bio", function (req, res) {
-    console.log("req.body", req.body);
     db.updateBio(req.body.bio, req.session.userId)
         .then((result) => {
             console.log("bio was sent", result.rows[0]);
@@ -236,10 +235,8 @@ app.post("/bio", function (req, res) {
 });
 
 app.get("/user/:id.json", function (req, res) {
-    console.log("req.body", req.params);
     db.getUserById(req.params.id)
         .then((result) => {
-            console.log("user been sent", result.rows);
             if (req.params.id == req.session.userId) {
                 res.json({ ownProfile: true });
             } else {
@@ -270,6 +267,51 @@ app.get("/users/search/:input", function (req, res) {
         })
         .catch((e) => {
             console.log("error in searched users", e);
+        });
+});
+
+app.get("/friendship-status/:id", function (req, res) {
+    db.getFriendship(req.session.userId, req.params.id)
+        .then((result) => {
+            console.log("friendship table", result.rows);
+            if (!result.rows[0]) {
+                res.json({ friendship: false });
+            } else {
+                res.json(result.rows);
+            }
+        })
+        .catch((e) => {
+            console.log("error in get friendship", e);
+        });
+});
+
+app.post("/make-request/:id", function (req, res) {
+    db.requestFriendship(req.session.userId, req.params.id)
+        .then((result) => {
+            console.log("friend request sent - result.rows", result.rows);
+        })
+        .catch((e) => {
+            console.log("error in friends request", e);
+        });
+});
+
+app.post("/cancel-request/:id", function (req, res) {
+    db.cancelFriendship(req.session.userId, req.params.id)
+        .then((result) => {
+            console.log("cancel friend request - result.rows", result.rows);
+        })
+        .catch((e) => {
+            console.log("error in cancel friends request", e);
+        });
+});
+
+app.post("/accept-request/:id", function (req, res) {
+    db.acceptFriendRequest(req.session.userId, req.params.id)
+        .then((result) => {
+            console.log("friend request accepted ");
+        })
+        .catch((e) => {
+            console.log("error in accept friend request", e);
         });
 });
 

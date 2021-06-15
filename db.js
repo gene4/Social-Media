@@ -85,4 +85,41 @@ module.exports.getUserSearch = (input) => {
     );
 };
 
-//
+module.exports.getFriendship = (userId1, usersId2) => {
+    const q = `SELECT * FROM friendships
+    WHERE (recipient_id = $1 AND sender_id = $2)
+    OR (recipient_id = $2 AND sender_id = $1)`;
+
+    const params = [userId1, usersId2];
+
+    return db.query(q, params);
+};
+
+module.exports.requestFriendship = (userId1, userId2) => {
+    const q = `
+    INSERT INTO friendships (sender_id, recipient_id)
+    values ($1, $2)  
+    `;
+    const params = [userId1, userId2];
+    return db.query(q, params);
+};
+
+module.exports.cancelFriendship = (userId1, userId2) => {
+    const q = `
+    DELETE FROM friendships WHERE (recipient_id = $1 AND sender_id = $2)
+    OR (recipient_id = $2 AND sender_id = $1)`;
+
+    const params = [userId1, userId2];
+    return db.query(q, params);
+};
+
+module.exports.acceptFriendRequest = (userId1, userId2) => {
+    const q = `
+    UPDATE friendships
+    SET accepted = true 
+    WHERE (recipient_id = $1 AND sender_id = $2)
+    OR (recipient_id = $2 AND sender_id = $1)`;
+
+    const params = [userId1, userId2];
+    return db.query(q, params);
+};

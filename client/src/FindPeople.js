@@ -8,7 +8,6 @@ export default function FindPeople() {
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        console.log("first useeffact!", "error", error);
         if (!searchInput) {
             axios
                 .get("/users/last")
