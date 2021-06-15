@@ -53,44 +53,46 @@ export class Registration extends React.Component {
 
     render() {
         return (
-            <>
-                {/*Conditional rendering of the error*/}
-                {this.state.error && (
-                    <p>Oupsi! Something went wrong, try again.</p>
-                )}
-                {/*Option 2 to keep track of the this context - Arrow functions:*/}
-                <form onSubmit={(event) => this.handleSubmit(event)}>
-                    <input
-                        name={"firstName"}
-                        placeholder={"First Name"}
-                        // Commenting out the required attribute for now to be able to properly test the axios requests
-                        // required
-                        onChange={this.handleChange}
-                    />
-                    <input
-                        name={"lastName"}
-                        placeholder={"Last Name"}
-                        // required
-                        onChange={this.handleChange}
-                    />
-                    <input
-                        name={"email"}
-                        placeholder={"email"}
-                        // required
-                        type={"email"}
-                        onChange={this.handleChange}
-                    />
-                    <input
-                        name={"password"}
-                        placeholder={"password"}
-                        // required
-                        type={"password"}
-                        onChange={this.handleChange}
-                    />
-                    <button type={"submit"}>Submit</button>
-                </form>
-                <Link to="/login"> Click here to Login!</Link>
-            </>
+            <div className="register">
+                <section>
+                    {this.state.error && (
+                        <p>Oupsi! Something went wrong, try again.</p>
+                    )}
+
+                    <form onSubmit={(event) => this.handleSubmit(event)}>
+                        <input
+                            name={"firstName"}
+                            placeholder={"First Name"}
+                            onChange={this.handleChange}
+                        />
+                        <input
+                            name={"lastName"}
+                            placeholder={"Last Name"}
+                            onChange={this.handleChange}
+                        />
+                        <input
+                            name={"email"}
+                            placeholder={"email"}
+                            type={"email"}
+                            onChange={this.handleChange}
+                        />
+                        <input
+                            name={"password"}
+                            placeholder={"password"}
+                            type={"password"}
+                            onChange={this.handleChange}
+                        />
+                        <button type={"submit"}>Register</button>
+                    </form>
+                </section>
+                <p className="member">
+                    Already a member?! Click{" "}
+                    <Link className="here" to="/login">
+                        here
+                    </Link>{" "}
+                    to Login!
+                </p>
+            </div>
         );
     }
 }
