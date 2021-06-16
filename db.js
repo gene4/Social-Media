@@ -123,3 +123,17 @@ module.exports.acceptFriendRequest = (userId1, userId2) => {
     const params = [userId1, userId2];
     return db.query(q, params);
 };
+
+module.exports.getFriendsList = (userId) => {
+    const q = `
+    SELECT users.id, first, last, url, accepted
+      FROM friendships
+      JOIN users
+      ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+      OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+      OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+    `;
+
+    const params = [userId];
+    return db.query(q, params);
+};

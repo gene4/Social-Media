@@ -299,9 +299,11 @@ app.post("/cancel-request/:id", function (req, res) {
     db.cancelFriendship(req.session.userId, req.params.id)
         .then((result) => {
             console.log("cancel friend request - result.rows", result.rows);
+            res.json({ success: true });
         })
         .catch((e) => {
             console.log("error in cancel friends request", e);
+            res.json({ success: false });
         });
 });
 
@@ -309,9 +311,23 @@ app.post("/accept-request/:id", function (req, res) {
     db.acceptFriendRequest(req.session.userId, req.params.id)
         .then((result) => {
             console.log("friend request accepted ");
+            res.json({ success: true });
         })
         .catch((e) => {
             console.log("error in accept friend request", e);
+            res.json({ success: false });
+        });
+});
+
+app.get("/friends.json", function (req, res) {
+    db.getFriendsList(req.session.userId)
+
+        .then((result) => {
+            console.log("friends list", result.rows);
+            res.json(result.rows);
+        })
+        .catch((e) => {
+            console.log("error in getting friends list", e);
         });
 });
 
