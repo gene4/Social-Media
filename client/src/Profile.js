@@ -4,13 +4,15 @@ import { ProfilePic } from "./ProfilePic";
 export function Profile({ first, last, imgUrl, bio, setBio }) {
     return (
         <div className="profile">
-            <ProfilePic
-                first={first}
-                last={last}
-                imgUrl={imgUrl}
-                width="350"
-                height="350"
-            />
+            <div>
+                <ProfilePic
+                    first={first}
+                    last={last}
+                    imgUrl={imgUrl}
+                    width="350"
+                    height="350"
+                />
+            </div>
             <div>
                 <BioEditor
                     bio={bio}

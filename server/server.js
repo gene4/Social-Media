@@ -13,6 +13,11 @@ const csurf = require("csurf");
 const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
 const s3 = require("../s3");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
 
 ///////////////////////////
 //////// MIDDLEWARE //////
@@ -20,13 +25,24 @@ const s3 = require("../s3");
 const secret =
     process.env.COOKIE_SECRET || require("../secrets.json").COOKIE_SECRET;
 
-app.use(
-    cookieSession({
-        secret,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-        sameSite: "strict",
-    })
-);
+// app.use(
+//     cookieSession({
+//         secret,
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//         sameSite: "strict",
+//     })
+// );
+
+const cookieSessionMiddleware = cookieSession({
+    secret,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+
+app.use(cookieSessionMiddleware);
+
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -328,6 +344,7 @@ app.get("/friends.json", function (req, res) {
         })
         .catch((e) => {
             console.log("error in getting friends list", e);
+            res.json({ success: false });
         });
 });
 
@@ -335,6 +352,46 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", function (socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    const userId = socket.request.session.userId;
+    console.log("userId in socket", userId);
+
+    db.getLastTenMessages(userId)
+        .then((lastTenMessages) => {
+            console.log(lastTenMessages.rows);
+            socket.emit("chatMessages", lastTenMessages.rows.reverse());
+        })
+        .catch((e) => {
+            console.log("error in getting lastTenMessages", e);
+        });
+
+    /* db query here to get the last 10 massages...id , massage, userid  */
+    //the query needs to be a join with the users table
+
+    socket.on("new chat message", (msg) => {
+        console.log("new message", msg);
+        db.insertMessage(userId, msg)
+            .then((result) => {
+                console.log("message was inserted", result.rows);
+                db.getLastTenMessages(userId)
+                    .then((lastTenMessages) => {
+                        console.log(lastTenMessages.rows);
+                        io.emit("chatMessages", lastTenMessages.rows.reverse());
+                    })
+                    .catch((e) => {
+                        console.log("error in getting lastTenMessages", e);
+                    });
+            })
+            .catch((e) => {
+                console.log("error in inserting message", e);
+            });
+    });
 });

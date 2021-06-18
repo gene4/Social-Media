@@ -53,12 +53,16 @@ export class Login extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="register">
                 {this.state.error && (
                     <p>Oupsi! Something went wrong, try again.</p>
                 )}
-                <h1>Login</h1>
-                <form onSubmit={(event) => this.handleLogin(event)}>
+
+                <form
+                    className="login"
+                    onSubmit={(event) => this.handleLogin(event)}
+                >
+                    <h1>Login</h1>
                     <input
                         name={"email"}
                         placeholder={"email"}
@@ -74,9 +78,25 @@ export class Login extends React.Component {
                         onChange={this.handleChange}
                     />
                     <button type={"submit"}>Login</button>
+                    <p className="member">
+                        Click{" "}
+                        <Link className="here" to="/">
+                            {" "}
+                            here{" "}
+                        </Link>{" "}
+                        to register!
+                    </p>
+                    <Link to="/password-reset"> Forgot Password?</Link>
                 </form>
-                <Link to="/"> Click here to register!</Link>
-                <Link to="/password-reset"> Forgot Password?</Link>
+                <div className="logo-entry">
+                    <img
+                        width="300"
+                        height="300"
+                        src="../iconfinder.png"
+                        alt="icon"
+                    />
+                    <h1>Hot Track Summer!</h1>
+                </div>
             </div>
         );
     }

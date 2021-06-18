@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import Logo from "./Logo";
 
 export class Registration extends React.Component {
     constructor(props) {
@@ -54,44 +55,52 @@ export class Registration extends React.Component {
     render() {
         return (
             <div className="register">
-                <section>
-                    {this.state.error && (
-                        <p>Oupsi! Something went wrong, try again.</p>
-                    )}
+                {this.state.error && (
+                    <p>Oupsi! Something went wrong, try again.</p>
+                )}
 
-                    <form onSubmit={(event) => this.handleSubmit(event)}>
-                        <input
-                            name={"firstName"}
-                            placeholder={"First Name"}
-                            onChange={this.handleChange}
-                        />
-                        <input
-                            name={"lastName"}
-                            placeholder={"Last Name"}
-                            onChange={this.handleChange}
-                        />
-                        <input
-                            name={"email"}
-                            placeholder={"email"}
-                            type={"email"}
-                            onChange={this.handleChange}
-                        />
-                        <input
-                            name={"password"}
-                            placeholder={"password"}
-                            type={"password"}
-                            onChange={this.handleChange}
-                        />
-                        <button type={"submit"}>Register</button>
-                    </form>
-                </section>
-                <p className="member">
-                    Already a member?! Click{" "}
-                    <Link className="here" to="/login">
-                        here
-                    </Link>{" "}
-                    to Login!
-                </p>
+                <form onSubmit={(event) => this.handleSubmit(event)}>
+                    <h1>Register</h1>
+                    <input
+                        name={"firstName"}
+                        placeholder={"First Name"}
+                        onChange={this.handleChange}
+                    />
+                    <input
+                        name={"lastName"}
+                        placeholder={"Last Name"}
+                        onChange={this.handleChange}
+                    />
+                    <input
+                        name={"email"}
+                        placeholder={"email"}
+                        type={"email"}
+                        onChange={this.handleChange}
+                    />
+                    <input
+                        name={"password"}
+                        placeholder={"password"}
+                        type={"password"}
+                        onChange={this.handleChange}
+                    />
+                    <button type={"submit"}>Register</button>
+                    <p className="member">
+                        Already a member?! Click{" "}
+                        <Link className="here" to="/login">
+                            here
+                        </Link>{" "}
+                        to Login!
+                    </p>
+                </form>
+                <div className="logo-entry">
+                    <img
+                        width="300"
+                        height="300"
+                        src="../iconfinder.png"
+                        alt="icon"
+                    />
+                    <h1>Hot Track Summer!</h1>
+                </div>
             </div>
         );
     }

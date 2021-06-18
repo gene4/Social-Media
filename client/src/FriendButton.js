@@ -5,23 +5,29 @@ export default function FriendButton({ userId }) {
     const [buttonText, setButtonText] = useState("");
 
     useEffect(() => {
+        let abort;
         console.log("userId", userId);
         axios.get(`/friendship-status/${userId}`).then(({ data }) => {
-            console.log("friendship data", data);
-            if (!data[0]) {
-                setButtonText("Send Friend Request");
-            } else {
-                if (data[0] && data[0].accepted == false) {
-                    if (data[0].sender_id == userId) {
-                        setButtonText("Accept Friend Request");
-                    } else {
-                        setButtonText("Cancel Friend Request");
+            if (!abort) {
+                console.log("friendship data", data);
+                if (!data[0]) {
+                    setButtonText("Send Friend Request");
+                } else {
+                    if (data[0] && data[0].accepted == false) {
+                        if (data[0].sender_id == userId) {
+                            setButtonText("Accept Friend Request");
+                        } else {
+                            setButtonText("Cancel Friend Request");
+                        }
+                    } else if (data[0] && data[0].accepted == true) {
+                        setButtonText("End Friendship");
                     }
-                } else if (data[0] && data[0].accepted == true) {
-                    setButtonText("End Friendship");
                 }
             }
         });
+        return () => {
+            abort = true;
+        };
     }, []);
 
     function clickHandler() {

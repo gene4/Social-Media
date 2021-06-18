@@ -137,3 +137,27 @@ module.exports.getFriendsList = (userId) => {
     const params = [userId];
     return db.query(q, params);
 };
+
+module.exports.getLastTenMessages = () => {
+    const q = `
+    SELECT users.id, first, last, url, message , timestamp
+      FROM messages
+      JOIN users
+      ON users.id = messages.userId 
+      ORDER BY messages.id DESC
+      LIMIT 10
+    `;
+
+    return db.query(q);
+};
+
+module.exports.insertMessage = (userId, message) => {
+    const q = `
+    INSERT INTO messages (userId, message)
+    values ($1, $2)
+    RETURNING userId, message
+    `;
+
+    const params = [userId, message];
+    return db.query(q, params);
+};

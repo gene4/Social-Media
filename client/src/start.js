@@ -8,6 +8,10 @@ import reduxPromise from "redux-promise";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import reducer from "./reducers";
+import { io } from "socket.io-client";
+import { init } from "./socket";
+
+io.connect();
 
 const store = createStore(
     reducer,
@@ -18,6 +22,7 @@ axios.get("/user/id.json").then(function ({ data }) {
     if (!data.userId) {
         ReactDOM.render(<Welcome />, document.querySelector("main"));
     } else {
+        init(store);
         ReactDOM.render(
             <Provider store={store}>
                 <App />

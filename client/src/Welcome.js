@@ -8,7 +8,6 @@ export default function Welcome() {
     return (
         // Using a react fragment as the root element
         <>
-            <h1>Welcome</h1>
             <HashRouter>
                 <>
                     <Route exact path="/" component={Registration} />

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import FriendButton from "./FriendButton";
 
 export default function FindPeople() {
     const [users, setUsers] = useState([]);
@@ -70,6 +71,7 @@ export default function FindPeople() {
                                 {each.first} {each.last}
                             </p>
                         </Link>
+                        <FriendButton userId={each.id} />
                     </div>
                 ))}
             </div>

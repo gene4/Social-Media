@@ -32,6 +32,21 @@ export default function reducer(state = {}, action) {
                 }
             }),
         };
+    } else if (action.type == "LAST_10_MESSAGES") {
+        newState = {
+            ...state,
+            messages: action.payload,
+        };
+    } else if (action.type == "NEW_MESSAGE") {
+        newState = {
+            ...state,
+            messages: state.messages.map((message) => {
+                state.messages.push(action.payload);
+                return {
+                    ...message,
+                };
+            }),
+        };
     }
 
     return newState;
