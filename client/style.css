@@ -44,6 +44,7 @@ img {
     width: 300px;
     padding: 15px;
     text-align: center;
+    height: fit-content;
 }
 
 .bioEditor {
@@ -66,8 +67,9 @@ h1 {
     font-family: "Raleway", sans-serif;
 }
 
-.profile {
+.profile-area {
     display: flex;
+    flex-direction: row;
     margin: 100px;
     justify-content: space-evenly;
     align-items: center;
@@ -127,12 +129,22 @@ input[type="file"]::-webkit-file-upload-button:hover {
 
 .uploader {
     background-color: #ffc93c;
-    width: 100%;
+    width: 600px;
     display: flex;
     align-items: center;
     height: 3.5em;
-
+    border-radius: 10px;
     justify-content: end;
+    margin-top: -50px;
+    margin-left: 200px;
+    padding: 0px 5px;
+}
+
+.uploader form {
+    display: flex;
+    flex-direction: row;
+    transform: none;
+    height: 52px;
 }
 
 .users {
@@ -172,8 +184,15 @@ a {
 input:focus {
     outline: none;
 }
+.other-profile {
+    display: flex;
+    flex-direction: row;
+    margin: 100px;
+    justify-content: space-evenly;
+    align-items: center;
+}
 
-.profile section {
+.other-profile section {
     display: flex;
     flex-direction: column;
     justify-content: space-around;

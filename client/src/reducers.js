@@ -5,6 +5,11 @@ export default function reducer(state = {}, action) {
             ...state,
             friendsAndWannabes: action.payload,
         };
+    } else if (action.type == "RECEIVE_OTHER_FRIENDS") {
+        newState = {
+            ...state,
+            friends: action.payload,
+        };
     } else if (action.type == "ACCEPT_FRIEND_REQUEST") {
         newState = {
             ...state,

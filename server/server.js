@@ -348,6 +348,20 @@ app.get("/friends.json", function (req, res) {
         });
 });
 
+app.get("/other-friends/:id", function (req, res) {
+    console.log("req.params.id", req.params.id);
+    db.getOtherFriendsList(req.params.id)
+
+        .then((result) => {
+            console.log("friends list", result.rows);
+            res.json(result.rows);
+        })
+        .catch((e) => {
+            console.log("error in getting friends list", e);
+            res.json({ success: false });
+        });
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
@@ -366,7 +380,6 @@ io.on("connection", function (socket) {
 
     db.getLastTenMessages(userId)
         .then((lastTenMessages) => {
-            console.log(lastTenMessages.rows);
             socket.emit("chatMessages", lastTenMessages.rows.reverse());
         })
         .catch((e) => {
@@ -383,7 +396,6 @@ io.on("connection", function (socket) {
                 console.log("message was inserted", result.rows);
                 db.getLastTenMessages(userId)
                     .then((lastTenMessages) => {
-                        console.log(lastTenMessages.rows);
                         io.emit("chatMessages", lastTenMessages.rows.reverse());
                     })
                     .catch((e) => {

@@ -35,7 +35,7 @@ export default class Uploader extends Component {
     render() {
         return (
             <div className="uploader">
-                <h3>Change your picture!</h3>
+                <p>Change your profile picture!</p>
                 <form onSubmit={(event) => this.uploadPic(event)}>
                     <input
                         name="file"

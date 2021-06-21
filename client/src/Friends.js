@@ -15,7 +15,6 @@ export default function Friends() {
         dispatch(receiveFriendsAndWannabes());
     }, []);
 
-    console.log("friendsAndWannabes", friendsAndWannabes);
     return (
         <div className="friends">
             {!friendsAndWannabes && <h1>No friends yet!</h1>}

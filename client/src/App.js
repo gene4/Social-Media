@@ -14,10 +14,7 @@ import Chat from "./Chat";
 export default class App extends Component {
     constructor() {
         super();
-        this.state = {
-            uploaderIsVisible: false,
-        };
-        this.toggleUploader = this.toggleUploader.bind(this);
+        this.state = {};
         this.setProfilePic = this.setProfilePic.bind(this);
         this.setBio = this.setBio.bind(this);
     }
@@ -49,18 +46,6 @@ export default class App extends Component {
         });
     }
 
-    toggleUploader() {
-        if (!this.state.uploaderIsVisible) {
-            this.setState({
-                uploaderIsVisible: true,
-            });
-        } else {
-            this.setState({
-                uploaderIsVisible: false,
-            });
-        }
-    }
-
     render() {
         return (
             <BrowserRouter>
@@ -71,14 +56,15 @@ export default class App extends Component {
                             <Link to="/users">Find People!</Link>
                             <Link to="/friends">Friends</Link>
                             <Link to="/chat">Chat</Link>
-                            <ProfilePic
-                                first={this.state.first}
-                                last={this.state.last}
-                                imgUrl={this.state.picUrl}
-                                toggleUploader={this.toggleUploader}
-                                width="50"
-                                height="50"
-                            />
+                            <Link to="./">
+                                <ProfilePic
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    imgUrl={this.state.picUrl}
+                                    width="50"
+                                    height="50"
+                                />
+                            </Link>
                         </div>
                     </nav>
 
@@ -95,10 +81,21 @@ export default class App extends Component {
                                 imgUrl={this.state.picUrl}
                                 bio={this.state.bio}
                                 setBio={this.setBio}
+                                setProfilePic={this.setProfilePic}
                             />
                         )}
                     />
-                    <Route path="/user/:id" component={OtherProfile} />
+                    <Route
+                        path="/user/:id"
+                        render={(props) => (
+                            <OtherProfile
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
+                    {/* <Route path="/user/:id" component={OtherProfile} /> */}
                     <Route path="/users" component={FindPeople} />
                     <Route path="/friends" component={Friends} />
                     <Route path="/chat" component={Chat} />

@@ -1,10 +1,22 @@
 import BioEditor from "./BioEditor";
 import { ProfilePic } from "./ProfilePic";
+import { useState, useEffect } from "react";
+import Uploader from "./Uploader";
 
-export function Profile({ first, last, imgUrl, bio, setBio }) {
+export function Profile({ first, last, imgUrl, bio, setBio, setProfilePic }) {
+    const [uploaderIsVisible, isUploaderIsVisible] = useState(false);
+
+    function toggleUploader() {
+        if (!uploaderIsVisible) {
+            isUploaderIsVisible(true);
+        } else {
+            isUploaderIsVisible(false);
+        }
+    }
+
     return (
         <div className="profile">
-            <div>
+            <div className="profile-area" onClick={() => toggleUploader()}>
                 <ProfilePic
                     first={first}
                     last={last}
@@ -12,8 +24,7 @@ export function Profile({ first, last, imgUrl, bio, setBio }) {
                     width="350"
                     height="350"
                 />
-            </div>
-            <div>
+
                 <BioEditor
                     bio={bio}
                     setBio={setBio}
@@ -21,6 +32,7 @@ export function Profile({ first, last, imgUrl, bio, setBio }) {
                     last={last}
                 />
             </div>
+            {uploaderIsVisible && <Uploader setProfilePic={setProfilePic} />}
         </div>
     );
 }

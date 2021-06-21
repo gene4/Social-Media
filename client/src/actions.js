@@ -20,10 +20,21 @@ export const receiveFriendsAndWannabes = async () => {
     }
 };
 
+export const getOtherFriends = async ({ userId }) => {
+    console.log("user id on other friends acyioon", userId);
+    try {
+        const { data } = await axios.get(`/other-friends/${userId}`);
+        return {
+            type: "RECEIVE_OTHER_FRIENDS",
+            payload: data,
+        };
+    } catch (error) {
+        console.log("error in axios to other friends", error);
+    }
+};
+
 export const acceptFriendRequest = async (wanabeId) => {
-    console.log("in action about to make post", wanabeId);
     await axios.post(`/accept-request/${wanabeId}`);
-    console.log("in action", wanabeId);
     return {
         type: "ACCEPT_FRIEND_REQUEST",
         payload: wanabeId,
@@ -40,7 +51,6 @@ export const unfriend = async (canceledId) => {
 };
 
 export const chatMessages = async (messages) => {
-    console.log("IN ACTION LAST 10", messages);
     return {
         type: "LAST_10_MESSAGES",
         payload: messages,
@@ -48,7 +58,6 @@ export const chatMessages = async (messages) => {
 };
 
 export const chatMessage = async (message) => {
-    console.log("IN ACTION new message", message);
     return {
         type: "NEW_MESSAGE",
         payload: message,
