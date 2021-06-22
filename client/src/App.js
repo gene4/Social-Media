@@ -56,7 +56,7 @@ export default class App extends Component {
                             <Link to="/users">Find People!</Link>
                             <Link to="/friends">Friends</Link>
                             <Link to="/chat">Chat</Link>
-                            <Link to="/logout">Logout</Link>
+                            <a href="/logout">Logout</a>
                             <Link to="/">
                                 <ProfilePic
                                     first={this.state.first}
@@ -83,6 +83,7 @@ export default class App extends Component {
                                 bio={this.state.bio}
                                 setBio={this.setBio}
                                 setProfilePic={this.setProfilePic}
+                                userId={this.state.userId}
                             />
                         )}
                     />

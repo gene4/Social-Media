@@ -363,6 +363,7 @@ app.get("/other-friends/:id", function (req, res) {
 });
 
 app.get("/logout", (req, res) => {
+    console.log("logout route");
     req.session = null;
     res.redirect("/");
 });
@@ -384,8 +385,13 @@ app.post("/insert/post", function (req, res) {
     console.log("req.body", req.body);
     db.insertPost(req.session.userId, req.body.recipientId, req.body.post)
         .then((result) => {
-            console.log("post inserted ", result.rows);
-            res.json({ success: true });
+            db.getUserById(req.session.userId).then((users) => {
+                console.log("post inserted ", result.rows);
+                res.json({
+                    post: { ...result.rows[0], ...users.rows[0] },
+                    success: true,
+                });
+            });
         })
         .catch((e) => {
             console.log("error in inserting post", e);

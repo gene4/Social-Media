@@ -63,6 +63,11 @@ img {
 .post-user {
     display: flex;
     align-items: center;
+    padding-left: 10px;
+}
+
+.post-user img {
+    padding-right: 10px;
 }
 .wall textarea {
     margin: 0;
@@ -80,7 +85,7 @@ img {
     background-color: white;
     border-radius: 10px;
     width: 300px;
-    display: flex;
+    font-size: 20px;
     margin: 10px;
     text-align: center;
     height: fit-content;
@@ -175,9 +180,11 @@ input[type="file"]::-webkit-file-upload-button:hover {
     height: 3.5em;
     border-radius: 10px;
     justify-content: end;
-    margin-top: -50px;
+    top: 200px;
+    right: 100px;
     margin-left: 200px;
     padding: 0px 5px;
+    position: absolute;
 }
 
 .uploader form {
@@ -363,7 +370,7 @@ form {
 .chat textarea {
     width: 400px;
     font-size: 18px;
-    background-color: #ffc93c;
+    background-color: white;
     border: none;
     resize: none;
     margin: 0;
@@ -379,6 +386,9 @@ textarea:focus {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: #ffc93c;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .message {
@@ -387,7 +397,7 @@ textarea:focus {
 }
 
 .even {
-    background-color: #ffc93c;
+    border: solid black 1px;
     border-radius: 10px;
     padding: 8px;
     margin-left: 5px;

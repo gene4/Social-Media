@@ -69,23 +69,31 @@ export const getPosts = async (userId) => {
     try {
         const { data } = await axios.get(`/posts/${userId}`);
         console.log("got posts:", data);
-        return {
-            type: "GET_POSTS",
-            payload: data,
-        };
+        if (Array.isArray(data)) {
+            return {
+                type: "GET_POSTS",
+                payload: data,
+            };
+        } else {
+            return {
+                payload: {},
+            };
+        }
     } catch (error) {
         console.log("error in axios to posts", error);
     }
 };
 
 export const insertPost = async (postData) => {
-    console.log(postData);
     try {
         const { data } = await axios.post(`/insert/post`, postData);
-        return {
-            type: "INSERT_POSTS",
-            payload: data,
-        };
+        console.log("data from insert post", data);
+        if (data.success) {
+            return {
+                type: "INSERT_POSTS",
+                payload: data.post,
+            };
+        }
     } catch (error) {
         console.log("error in inserting posts", error);
     }

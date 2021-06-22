@@ -58,14 +58,10 @@ export default function reducer(state = {}, action) {
             posts: action.payload,
         };
     } else if (action.type == "INSERT_POSTS") {
+        console.log("insert post action", action);
         newState = {
             ...state,
-            posts: state.posts.map((post) => {
-                state.posts.push(action.payload);
-                return {
-                    ...post,
-                };
-            }),
+            posts: [...state.posts, action.payload],
         };
     }
 

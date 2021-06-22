@@ -31,8 +31,11 @@ export default function Chat() {
             e.target.value = "";
         }
     }
+
+    console.log("elementRef in chat", elementRef);
     return (
         <div className="chat">
+            <h1>Public Chat!</h1>
             <div className="chat-container" ref={elementRef}>
                 {chatMessages &&
                     chatMessages.map((each, index) => (

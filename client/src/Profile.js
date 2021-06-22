@@ -4,7 +4,15 @@ import { useState, useEffect } from "react";
 import Uploader from "./Uploader";
 import Wall from "./Wall";
 
-export function Profile({ first, last, imgUrl, bio, setBio, setProfilePic }) {
+export function Profile({
+    first,
+    last,
+    imgUrl,
+    bio,
+    setBio,
+    setProfilePic,
+    userId,
+}) {
     const [uploaderIsVisible, isUploaderIsVisible] = useState(false);
 
     function toggleUploader() {
@@ -14,11 +22,11 @@ export function Profile({ first, last, imgUrl, bio, setBio, setProfilePic }) {
             isUploaderIsVisible(false);
         }
     }
-
+    console.log("userId in profile", userId);
     return (
         <div className="profile">
             <div className="profile-area">
-                <Wall />
+                <Wall userId={userId} />
                 <div onClick={() => toggleUploader()}>
                     <ProfilePic
                         first={first}

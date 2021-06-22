@@ -1,28 +1,31 @@
 import { Component } from "react";
-import { musicplayer } from "./musicPlayer";
 
 export default class Logo extends Component {
     constructor() {
         super();
         this.state = {
             class: false,
+            audio: new Audio(
+                "../megan_thee_stallion_hot_girl_summer_ft_nicki_minaj_ty_dolla_ign.mp3"
+            ),
         };
     }
 
     componentDidMount() {}
+
     toggleClass() {
         console.log("wiw");
         if (!this.state.class) {
             document.querySelector(".logo img").classList.add("flip");
             document.querySelector(".logo h1").classList.add("hot");
-            musicplayer("play");
+            this.state.audio.play();
             this.setState({
                 class: true,
             });
         } else {
             document.querySelector(".logo img").classList.remove("flip");
             document.querySelector(".logo h1").classList.remove("hot");
-            musicplayer("pause");
+            this.state.audio.pause();
             this.setState({
                 class: false,
             });
