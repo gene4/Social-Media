@@ -8,7 +8,6 @@ export default function OtherFriends(userId) {
     const friends = useSelector((state) => state.friends);
 
     useEffect(() => {
-        console.log("mounted");
         let abort;
         if (!abort) {
             dispatch(getOtherFriends(userId));
@@ -18,7 +17,6 @@ export default function OtherFriends(userId) {
         };
     }, []);
 
-    console.log("friends", friends);
     if (!friends) {
         return null;
     }

@@ -21,7 +21,6 @@ export const receiveFriendsAndWannabes = async () => {
 };
 
 export const getOtherFriends = async ({ userId }) => {
-    console.log("user id on other friends acyioon", userId);
     try {
         const { data } = await axios.get(`/other-friends/${userId}`);
         return {
@@ -58,8 +57,36 @@ export const chatMessages = async (messages) => {
 };
 
 export const chatMessage = async (message) => {
+    console.log("new chat msg", message);
     return {
         type: "NEW_MESSAGE",
         payload: message,
     };
+};
+
+export const getPosts = async (userId) => {
+    console.log("trying to get posts", userId);
+    try {
+        const { data } = await axios.get(`/posts/${userId}`);
+        console.log("got posts:", data);
+        return {
+            type: "GET_POSTS",
+            payload: data,
+        };
+    } catch (error) {
+        console.log("error in axios to posts", error);
+    }
+};
+
+export const insertPost = async (postData) => {
+    console.log(postData);
+    try {
+        const { data } = await axios.post(`/insert/post`, postData);
+        return {
+            type: "INSERT_POSTS",
+            payload: data,
+        };
+    } catch (error) {
+        console.log("error in inserting posts", error);
+    }
 };

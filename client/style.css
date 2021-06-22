@@ -20,7 +20,7 @@ main {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 280px;
+    width: 350px;
 }
 .logo {
     display: flex;
@@ -45,6 +45,46 @@ img {
     padding: 15px;
     text-align: center;
     height: fit-content;
+}
+
+.posts-container {
+    background-color: #ffc93c;
+    border-radius: 10px;
+    width: 300px;
+    padding: 15px;
+    text-align: center;
+    height: 450px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.post-user {
+    display: flex;
+    align-items: center;
+}
+.wall textarea {
+    margin: 0;
+    width: 300px;
+    padding: 15px;
+    margin: 10px;
+    resize: none;
+}
+.wall {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.post {
+    background-color: white;
+    border-radius: 10px;
+    width: 300px;
+    display: flex;
+    margin: 10px;
+    text-align: center;
+    height: fit-content;
+    padding: 5px;
 }
 
 .bioEditor {

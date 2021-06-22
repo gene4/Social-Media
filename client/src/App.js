@@ -56,7 +56,8 @@ export default class App extends Component {
                             <Link to="/users">Find People!</Link>
                             <Link to="/friends">Friends</Link>
                             <Link to="/chat">Chat</Link>
-                            <Link to="./">
+                            <Link to="/logout">Logout</Link>
+                            <Link to="/">
                                 <ProfilePic
                                     first={this.state.first}
                                     last={this.state.last}
@@ -95,7 +96,7 @@ export default class App extends Component {
                             />
                         )}
                     />
-                    {/* <Route path="/user/:id" component={OtherProfile} /> */}
+
                     <Route path="/users" component={FindPeople} />
                     <Route path="/friends" component={Friends} />
                     <Route path="/chat" component={Chat} />

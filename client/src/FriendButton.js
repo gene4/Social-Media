@@ -6,10 +6,9 @@ export default function FriendButton({ userId }) {
 
     useEffect(() => {
         let abort;
-        console.log("userId", userId);
+
         axios.get(`/friendship-status/${userId}`).then(({ data }) => {
             if (!abort) {
-                console.log("friendship data", data);
                 if (!data[0]) {
                     setButtonText("Send Friend Request");
                 } else {

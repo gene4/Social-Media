@@ -175,3 +175,27 @@ module.exports.insertMessage = (userId, message) => {
     const params = [userId, message];
     return db.query(q, params);
 };
+
+module.exports.getPosts = (recipient_id) => {
+    const q = `
+    SELECT first, last, url, post, timestamp, sender_id  FROM posts
+      JOIN users
+      ON sender_id = users.id
+      WHERE recipient_id = $1
+      ORDER BY posts.id DESC
+    `;
+
+    const params = [recipient_id];
+    return db.query(q, params);
+};
+
+module.exports.insertPost = (sender_id, recipient_id, post) => {
+    const q = `
+    INSERT INTO posts (sender_id, recipient_id, post)
+    values ($1, $2, $3)
+    RETURNING sender_id, recipient_id, post
+    `;
+
+    const params = [sender_id, recipient_id, post];
+    return db.query(q, params);
+};

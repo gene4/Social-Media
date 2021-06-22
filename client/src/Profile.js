@@ -2,6 +2,7 @@ import BioEditor from "./BioEditor";
 import { ProfilePic } from "./ProfilePic";
 import { useState, useEffect } from "react";
 import Uploader from "./Uploader";
+import Wall from "./Wall";
 
 export function Profile({ first, last, imgUrl, bio, setBio, setProfilePic }) {
     const [uploaderIsVisible, isUploaderIsVisible] = useState(false);
@@ -16,15 +17,17 @@ export function Profile({ first, last, imgUrl, bio, setBio, setProfilePic }) {
 
     return (
         <div className="profile">
-            <div className="profile-area" onClick={() => toggleUploader()}>
-                <ProfilePic
-                    first={first}
-                    last={last}
-                    imgUrl={imgUrl}
-                    width="350"
-                    height="350"
-                />
-
+            <div className="profile-area">
+                <Wall />
+                <div onClick={() => toggleUploader()}>
+                    <ProfilePic
+                        first={first}
+                        last={last}
+                        imgUrl={imgUrl}
+                        width="350"
+                        height="350"
+                    />
+                </div>
                 <BioEditor
                     bio={bio}
                     setBio={setBio}

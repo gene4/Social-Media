@@ -2,6 +2,7 @@ import React from "react";
 import axios from "./axios";
 import FriendButton from "./FriendButton";
 import OtherFriends from "./OtherFriends";
+import Wall from "./Wall";
 
 export default class OtherProfile extends React.Component {
     constructor(props) {
@@ -35,6 +36,8 @@ export default class OtherProfile extends React.Component {
     render() {
         return (
             <div className="other-profile">
+                <Wall userId={this.props.match.params.id} />
+
                 <section>
                     <img
                         height="350"

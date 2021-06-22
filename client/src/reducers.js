@@ -52,6 +52,21 @@ export default function reducer(state = {}, action) {
                 };
             }),
         };
+    } else if (action.type == "GET_POSTS") {
+        newState = {
+            ...state,
+            posts: action.payload,
+        };
+    } else if (action.type == "INSERT_POSTS") {
+        newState = {
+            ...state,
+            posts: state.posts.map((post) => {
+                state.posts.push(action.payload);
+                return {
+                    ...post,
+                };
+            }),
+        };
     }
 
     return newState;

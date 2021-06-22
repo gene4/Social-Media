@@ -362,6 +362,37 @@ app.get("/other-friends/:id", function (req, res) {
         });
 });
 
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/");
+});
+
+app.get("/posts/:id", function (req, res) {
+    console.log("req.body in get posts", req.params);
+    db.getPosts(req.params.id)
+        .then((result) => {
+            console.log("posts", result.rows);
+            res.json(result.rows);
+        })
+        .catch((e) => {
+            console.log("error in getting posts", e);
+            res.json({ success: false });
+        });
+});
+
+app.post("/insert/post", function (req, res) {
+    console.log("req.body", req.body);
+    db.insertPost(req.session.userId, req.body.recipientId, req.body.post)
+        .then((result) => {
+            console.log("post inserted ", result.rows);
+            res.json({ success: true });
+        })
+        .catch((e) => {
+            console.log("error in inserting post", e);
+            res.json({ success: false });
+        });
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
@@ -370,10 +401,15 @@ server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
 
+// let presentUsers = {};
 io.on("connection", function (socket) {
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
+    // presentUsers[socket.id] = userId;
+    // socket.on("disconnect", function () {
+    //     delete presentUsers[socket.id];
+    // });
 
     const userId = socket.request.session.userId;
     console.log("userId in socket", userId);
@@ -385,9 +421,6 @@ io.on("connection", function (socket) {
         .catch((e) => {
             console.log("error in getting lastTenMessages", e);
         });
-
-    /* db query here to get the last 10 massages...id , massage, userid  */
-    //the query needs to be a join with the users table
 
     socket.on("new chat message", (msg) => {
         console.log("new message", msg);
